@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 public class ConsoleUI {
 	/** register.Register of persons. */
 	private Register register;
+	
 
 	/**
 	 * In JDK 6 use Console class instead.
@@ -28,6 +29,8 @@ public class ConsoleUI {
 	public ConsoleUI(Register register) {
 		this.register = register;
 	}
+	
+	
 
 	public void run() {
 		while (true) {
@@ -45,13 +48,17 @@ public class ConsoleUI {
 				removeFromRegister();
 				break;
 			case FIND:
-				findInRegister();
+				findInRegister();			
 				break;
 			case EXIT:
 				return;
 			}
 		}
 	}
+
+	
+
+
 
 	private String readLine() {
 		// In JDK 6.0 and above Console class can be used
@@ -80,9 +87,8 @@ public class ConsoleUI {
 		return Option.values()[selection - 1];
 	}
 
-	// TODO: Implement the method printRegister
 	private void printRegister() {
-		for (int index = 0; index < register.getSize(); index++) {
+		for (int index = 0; index < register.getCount(); index++) {
 			if (register.getPerson(index) != null) {
 				System.out.print(index + 1 + ". ");
 				System.out.println(register.getPerson(index));
@@ -102,28 +108,33 @@ public class ConsoleUI {
 		String phoneNumber = readLine();
 		for (int i = 0; i < register.getCount(); i++) {
 			if (register.getPerson(i).getName().equals(name)) {
-			if (register.getPerson(i).getPhoneNumber().equals(phoneNumber)) {
-				System.out.println("Osoba je uz zaradena v registri!!!");
-				return;
-			} 
-				
+				if (register.getPerson(i).getPhoneNumber().equals(phoneNumber)) {
+					System.out.println("Osoba je uz zaradena v registri!!!");
+					return;
+				}
+
 			}
-			
+
 		}
-		
+
 	}
 
 	private void updateRegister() {
-		// for (int index = 0; index < register.getSize(); index ++) {
-		Person person = register.getPerson(1);
 
-		person.setName("Palko Straka");
-		person.setPhoneNumber("09040230581");
+		System.out.println("Enter Index: ");
+		int index = Integer.parseInt(readLine());
+		Person person = register.getPerson(index - 1);
+		System.out.println(index + "." + person.toString());
+
+		System.out.println("Enter new name: ");
+		String name = readLine();
+		person.setName(name);
+		System.out.println("Enter new phone number: ");
+		String number = readLine();
+		person.setPhoneNumber(number);
+
 	}
 
-	// }
-
-	// TODO: Implement the method findInRegister
 	private void findInRegister() {
 		System.out.println("Enter Name: ");
 		String name = readLine();
@@ -133,8 +144,6 @@ public class ConsoleUI {
 		register.findPersonByPhoneNumber(phoneNumber);
 	}
 
-	
-	
 	private void removeFromRegister() {
 		System.out.println("Enter index: ");
 		int index = Integer.parseInt(readLine());
